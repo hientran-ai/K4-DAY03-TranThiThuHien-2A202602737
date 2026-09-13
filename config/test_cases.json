@@ -1,0 +1,46 @@
+[
+  {
+    "id": "TC01",
+    "expected_tools": [],
+    "type": "direct_query",
+    "question": "Chào bạn, bạn có thể giới thiệu quy chế học vụ cơ bản của Đại học VinUni không?",
+    "expected_behavior": "Chatbot trả lời trực tiếp từ System Prompt, không cần gọi bất kỳ Tool nào.",
+    "complexity": "Low"
+  },
+  {
+    "id": "TC02",
+    "expected_tools": ["academic_query"],
+    "expected_calls": [{"arguments": {"student_id": "SV2026001"}, "status": "SUCCESS"}],
+    "type": "single_tool_query",
+    "question": "Hãy tra cứu thông tin học vụ của sinh viên SV2026001.",
+    "expected_behavior": "Agent nhận diện nhu cầu tra cứu, tự động phát sinh Tool Call 'academic_query' với mã SV2026001.",
+    "complexity": "Medium"
+  },
+  {
+    "id": "TC03",
+    "expected_tools": ["schedule_appointment"],
+    "expected_calls": [{"arguments": {"student_id": "SV2026001", "datetime_str": "14:00 15/09/2026", "advisor_name": "PGS.TS Nguyễn Văn A"}, "status": "SUCCESS"}],
+    "type": "appointment_booking",
+    "question": "Đặt lịch tư vấn cho SV2026001 với PGS.TS Nguyễn Văn A vào 14:00 15/09/2026.",
+    "expected_behavior": "Agent tự động phát sinh Tool Call 'schedule_appointment' với đúng thời gian và thông tin sinh viên.",
+    "complexity": "Medium"
+  },
+  {
+    "id": "TC04",
+    "expected_tools": ["academic_query", "schedule_appointment"],
+    "expected_calls": [{"arguments": {"student_id": "SV2026002"}, "status": "SUCCESS"}, {"arguments": {"student_id": "SV2026002", "datetime_str": "09:00 16/09/2026", "advisor_name": "TS. Lê Thị B"}, "status": "SUCCESS"}],
+    "type": "multi_step_reasoning",
+    "question": "Hãy tra cứu cố vấn học tập của SV2026002, sau đó đặt lịch tư vấn với đúng cố vấn vào 09:00 16/09/2026.",
+    "expected_behavior": "Agent thực hiện chuỗi suy luận ReAct: Tra cứu cố vấn học tập của sinh viên trước, sau đó tiến hành đặt lịch hẹn.",
+    "complexity": "High"
+  },
+  {
+    "id": "TC05",
+    "expected_tools": ["academic_query"],
+    "expected_calls": [{"arguments": {"student_id": "SV9999999"}, "status": "NOT_FOUND"}],
+    "type": "edge_case_handling",
+    "question": "Hãy tra cứu thông tin học vụ của sinh viên SV9999999.",
+    "expected_behavior": "Agent nhận kết quả NOT_FOUND từ Tool và đưa ra phản hồi lịch sự, chính xác không bịa đặt dữ liệu.",
+    "complexity": "Medium"
+  }
+]

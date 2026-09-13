@@ -1,29 +1,307 @@
 [
   {
+    "run_id": "e4a833a4-4a31-4f32-9bdf-74990b641cae",
+    "test_id": "TC01",
     "step": 1,
     "query": "Chào bạn, bạn có thể giới thiệu quy chế học vụ cơ bản của Đại học VinUni không?",
+    "timestamp": "2026-09-13T15:44:39.986019+00:00",
+    "provider": "MockOfflineProvider",
+    "model": "offline-simulator-v2",
+    "is_mock": true,
     "action_type": "FINAL_ANSWER",
-    "thought": "Câu hỏi chung về quy chế học vụ, trả lời trực tiếp không cần gọi Tool.",
-    "output": "[Mock Agent Response]: Xin chào! Quy chế học vụ VinUni yêu cầu sinh viên tích lũy tối thiểu 120 tín chỉ và duy trì GPA trên 2.0 để tốt nghiệp.",
-    "latency_ms": 2845.93
+    "elapsed_ms": 0.099,
+    "thought": "Tổng hợp thông tin có sẵn để trả lời.",
+    "output": "Chào bạn! Tôi hỗ trợ tra cứu hồ sơ sinh viên và tạo lịch tư vấn mô phỏng. Demo chưa cung cấp quy chế VinUni chính thức; hãy hỏi phòng đào tạo về yêu cầu tốt nghiệp.",
+    "latency_ms": 0.064
   },
   {
+    "run_id": "4620ed45-d230-46b1-84b6-17d700dfee7c",
+    "test_id": "TC02",
     "step": 1,
     "query": "Hãy tra cứu thông tin học vụ của sinh viên SV2026001.",
+    "timestamp": "2026-09-13T15:44:39.987022+00:00",
+    "provider": "MockOfflineProvider",
+    "model": "offline-simulator-v2",
+    "is_mock": true,
+    "action_type": "MODEL_DECISION",
+    "elapsed_ms": 0.301,
+    "thought": "Gọi academic_query với dữ liệu từ yêu cầu hoặc kết quả đã nhận.",
+    "tools": [
+      "academic_query"
+    ],
+    "latency_ms": 0.287
+  },
+  {
+    "run_id": "4620ed45-d230-46b1-84b6-17d700dfee7c",
+    "test_id": "TC02",
+    "step": 1,
+    "query": "Hãy tra cứu thông tin học vụ của sinh viên SV2026001.",
+    "timestamp": "2026-09-13T15:44:39.987022+00:00",
+    "provider": "MockOfflineProvider",
+    "model": "offline-simulator-v2",
+    "is_mock": true,
     "action_type": "TOOL_EXECUTION",
+    "elapsed_ms": 0.341,
+    "thought": "Gọi academic_query với dữ liệu từ yêu cầu hoặc kết quả đã nhận.",
+    "call_id": "mock-1",
     "tool_name": "academic_query",
     "arguments": {
       "student_id": "SV2026001"
     },
-    "observation": {},
-    "latency_ms": 799.12
+    "observation": {
+      "status": "SUCCESS",
+      "student_id": "SV2026001",
+      "data": {
+        "full_name": "Nguyễn Văn An",
+        "class": "AI-K4",
+        "gpa": 3.85,
+        "email": "an.nv@vinuni.edu.vn",
+        "status": "Đang học",
+        "advisor": "PGS.TS Nguyễn Văn A"
+      }
+    },
+    "latency_ms": 0.035
   },
   {
+    "run_id": "4620ed45-d230-46b1-84b6-17d700dfee7c",
+    "test_id": "TC02",
     "step": 2,
     "query": "Hãy tra cứu thông tin học vụ của sinh viên SV2026001.",
+    "timestamp": "2026-09-13T15:44:39.987022+00:00",
+    "provider": "MockOfflineProvider",
+    "model": "offline-simulator-v2",
+    "is_mock": true,
     "action_type": "FINAL_ANSWER",
-    "thought": "Tổng hợp kết quả từ MCP Server thành công.",
-    "output": "Chưa thể trả lời chi tiết do chưa nhận được dữ liệu từ MCP Server (hãy hoàn thành TODO 2.1).",
-    "latency_ms": 10.0
+    "elapsed_ms": 0.363,
+    "thought": "Tổng hợp thông tin có sẵn để trả lời.",
+    "output": "Nguyễn Văn An (SV2026001): lớp AI-K4, GPA 3.85, email an.nv@vinuni.edu.vn, trạng thái Đang học. Cố vấn: PGS.TS Nguyễn Văn A. Dữ liệu minh họa.",
+    "latency_ms": 0.016
+  },
+  {
+    "run_id": "315a7bf4-61d8-4e8a-ad90-3564df930413",
+    "test_id": "TC03",
+    "step": 1,
+    "query": "Đặt lịch tư vấn cho SV2026001 với PGS.TS Nguyễn Văn A vào 14:00 15/09/2026.",
+    "timestamp": "2026-09-13T15:44:39.987022+00:00",
+    "provider": "MockOfflineProvider",
+    "model": "offline-simulator-v2",
+    "is_mock": true,
+    "action_type": "MODEL_DECISION",
+    "elapsed_ms": 0.028,
+    "thought": "Gọi schedule_appointment với dữ liệu từ yêu cầu hoặc kết quả đã nhận.",
+    "tools": [
+      "schedule_appointment"
+    ],
+    "latency_ms": 0.016
+  },
+  {
+    "run_id": "315a7bf4-61d8-4e8a-ad90-3564df930413",
+    "test_id": "TC03",
+    "step": 1,
+    "query": "Đặt lịch tư vấn cho SV2026001 với PGS.TS Nguyễn Văn A vào 14:00 15/09/2026.",
+    "timestamp": "2026-09-13T15:44:39.989034+00:00",
+    "provider": "MockOfflineProvider",
+    "model": "offline-simulator-v2",
+    "is_mock": true,
+    "action_type": "TOOL_EXECUTION",
+    "elapsed_ms": 2.615,
+    "thought": "Gọi schedule_appointment với dữ liệu từ yêu cầu hoặc kết quả đã nhận.",
+    "call_id": "mock-1",
+    "tool_name": "schedule_appointment",
+    "arguments": {
+      "student_id": "SV2026001",
+      "datetime_str": "14:00 15/09/2026",
+      "advisor_name": "PGS.TS Nguyễn Văn A"
+    },
+    "observation": {
+      "status": "SUCCESS",
+      "booking_id": "BK-E5B722D385",
+      "simulated": true,
+      "student_id": "SV2026001",
+      "datetime": "14:00 15/09/2026",
+      "advisor": "PGS.TS Nguyễn Văn A",
+      "message": "Đã tạo lịch hẹn mô phỏng BK-E5B722D385 cho SV2026001 với PGS.TS Nguyễn Văn A vào 14:00 15/09/2026. Chưa gửi đến nhà trường."
+    },
+    "latency_ms": 2.575
+  },
+  {
+    "run_id": "315a7bf4-61d8-4e8a-ad90-3564df930413",
+    "test_id": "TC03",
+    "step": 2,
+    "query": "Đặt lịch tư vấn cho SV2026001 với PGS.TS Nguyễn Văn A vào 14:00 15/09/2026.",
+    "timestamp": "2026-09-13T15:44:39.989034+00:00",
+    "provider": "MockOfflineProvider",
+    "model": "offline-simulator-v2",
+    "is_mock": true,
+    "action_type": "FINAL_ANSWER",
+    "elapsed_ms": 2.64,
+    "thought": "Tổng hợp thông tin có sẵn để trả lời.",
+    "output": "Đã tạo lịch hẹn mô phỏng BK-E5B722D385 cho SV2026001 với PGS.TS Nguyễn Văn A vào 14:00 15/09/2026. Chưa gửi đến nhà trường.",
+    "latency_ms": 0.019
+  },
+  {
+    "run_id": "12f733d0-0bb1-4011-bbe1-beb20cb352a8",
+    "test_id": "TC04",
+    "step": 1,
+    "query": "Hãy tra cứu cố vấn học tập của SV2026002, sau đó đặt lịch tư vấn với đúng cố vấn vào 09:00 16/09/2026.",
+    "timestamp": "2026-09-13T15:44:39.989034+00:00",
+    "provider": "MockOfflineProvider",
+    "model": "offline-simulator-v2",
+    "is_mock": true,
+    "action_type": "MODEL_DECISION",
+    "elapsed_ms": 0.039,
+    "thought": "Gọi academic_query với dữ liệu từ yêu cầu hoặc kết quả đã nhận.",
+    "tools": [
+      "academic_query"
+    ],
+    "latency_ms": 0.014
+  },
+  {
+    "run_id": "12f733d0-0bb1-4011-bbe1-beb20cb352a8",
+    "test_id": "TC04",
+    "step": 1,
+    "query": "Hãy tra cứu cố vấn học tập của SV2026002, sau đó đặt lịch tư vấn với đúng cố vấn vào 09:00 16/09/2026.",
+    "timestamp": "2026-09-13T15:44:39.989034+00:00",
+    "provider": "MockOfflineProvider",
+    "model": "offline-simulator-v2",
+    "is_mock": true,
+    "action_type": "TOOL_EXECUTION",
+    "elapsed_ms": 0.068,
+    "thought": "Gọi academic_query với dữ liệu từ yêu cầu hoặc kết quả đã nhận.",
+    "call_id": "mock-1",
+    "tool_name": "academic_query",
+    "arguments": {
+      "student_id": "SV2026002"
+    },
+    "observation": {
+      "status": "SUCCESS",
+      "student_id": "SV2026002",
+      "data": {
+        "full_name": "Trần Thị Bình",
+        "class": "AI-K4",
+        "gpa": 3.6,
+        "email": "binh.tt@vinuni.edu.vn",
+        "status": "Đang học",
+        "advisor": "TS. Lê Thị B"
+      }
+    },
+    "latency_ms": 0.024
+  },
+  {
+    "run_id": "12f733d0-0bb1-4011-bbe1-beb20cb352a8",
+    "test_id": "TC04",
+    "step": 2,
+    "query": "Hãy tra cứu cố vấn học tập của SV2026002, sau đó đặt lịch tư vấn với đúng cố vấn vào 09:00 16/09/2026.",
+    "timestamp": "2026-09-13T15:44:39.989034+00:00",
+    "provider": "MockOfflineProvider",
+    "model": "offline-simulator-v2",
+    "is_mock": true,
+    "action_type": "MODEL_DECISION",
+    "elapsed_ms": 0.086,
+    "thought": "Gọi schedule_appointment với dữ liệu từ yêu cầu hoặc kết quả đã nhận.",
+    "tools": [
+      "schedule_appointment"
+    ],
+    "latency_ms": 0.013
+  },
+  {
+    "run_id": "12f733d0-0bb1-4011-bbe1-beb20cb352a8",
+    "test_id": "TC04",
+    "step": 2,
+    "query": "Hãy tra cứu cố vấn học tập của SV2026002, sau đó đặt lịch tư vấn với đúng cố vấn vào 09:00 16/09/2026.",
+    "timestamp": "2026-09-13T15:44:39.989034+00:00",
+    "provider": "MockOfflineProvider",
+    "model": "offline-simulator-v2",
+    "is_mock": true,
+    "action_type": "TOOL_EXECUTION",
+    "elapsed_ms": 0.131,
+    "thought": "Gọi schedule_appointment với dữ liệu từ yêu cầu hoặc kết quả đã nhận.",
+    "call_id": "mock-2",
+    "tool_name": "schedule_appointment",
+    "arguments": {
+      "student_id": "SV2026002",
+      "datetime_str": "09:00 16/09/2026",
+      "advisor_name": "TS. Lê Thị B"
+    },
+    "observation": {
+      "status": "SUCCESS",
+      "booking_id": "BK-BDF4DA7196",
+      "simulated": true,
+      "student_id": "SV2026002",
+      "datetime": "09:00 16/09/2026",
+      "advisor": "TS. Lê Thị B",
+      "message": "Đã tạo lịch hẹn mô phỏng BK-BDF4DA7196 cho SV2026002 với TS. Lê Thị B vào 09:00 16/09/2026. Chưa gửi đến nhà trường."
+    },
+    "latency_ms": 0.042
+  },
+  {
+    "run_id": "12f733d0-0bb1-4011-bbe1-beb20cb352a8",
+    "test_id": "TC04",
+    "step": 3,
+    "query": "Hãy tra cứu cố vấn học tập của SV2026002, sau đó đặt lịch tư vấn với đúng cố vấn vào 09:00 16/09/2026.",
+    "timestamp": "2026-09-13T15:44:39.989034+00:00",
+    "provider": "MockOfflineProvider",
+    "model": "offline-simulator-v2",
+    "is_mock": true,
+    "action_type": "FINAL_ANSWER",
+    "elapsed_ms": 0.152,
+    "thought": "Tổng hợp thông tin có sẵn để trả lời.",
+    "output": "Đã tạo lịch hẹn mô phỏng BK-BDF4DA7196 cho SV2026002 với TS. Lê Thị B vào 09:00 16/09/2026. Chưa gửi đến nhà trường.",
+    "latency_ms": 0.014
+  },
+  {
+    "run_id": "6e082c11-b2cf-49d5-85a0-1650ecbde738",
+    "test_id": "TC05",
+    "step": 1,
+    "query": "Hãy tra cứu thông tin học vụ của sinh viên SV9999999.",
+    "timestamp": "2026-09-13T15:44:39.989034+00:00",
+    "provider": "MockOfflineProvider",
+    "model": "offline-simulator-v2",
+    "is_mock": true,
+    "action_type": "MODEL_DECISION",
+    "elapsed_ms": 0.02,
+    "thought": "Gọi academic_query với dữ liệu từ yêu cầu hoặc kết quả đã nhận.",
+    "tools": [
+      "academic_query"
+    ],
+    "latency_ms": 0.01
+  },
+  {
+    "run_id": "6e082c11-b2cf-49d5-85a0-1650ecbde738",
+    "test_id": "TC05",
+    "step": 1,
+    "query": "Hãy tra cứu thông tin học vụ của sinh viên SV9999999.",
+    "timestamp": "2026-09-13T15:44:39.989034+00:00",
+    "provider": "MockOfflineProvider",
+    "model": "offline-simulator-v2",
+    "is_mock": true,
+    "action_type": "TOOL_EXECUTION",
+    "elapsed_ms": 0.036,
+    "thought": "Gọi academic_query với dữ liệu từ yêu cầu hoặc kết quả đã nhận.",
+    "call_id": "mock-1",
+    "tool_name": "academic_query",
+    "arguments": {
+      "student_id": "SV9999999"
+    },
+    "observation": {
+      "status": "NOT_FOUND",
+      "message": "Không tìm thấy dữ liệu sinh viên có mã 'SV9999999'"
+    },
+    "latency_ms": 0.013
+  },
+  {
+    "run_id": "6e082c11-b2cf-49d5-85a0-1650ecbde738",
+    "test_id": "TC05",
+    "step": 2,
+    "query": "Hãy tra cứu thông tin học vụ của sinh viên SV9999999.",
+    "timestamp": "2026-09-13T15:44:39.989034+00:00",
+    "provider": "MockOfflineProvider",
+    "model": "offline-simulator-v2",
+    "is_mock": true,
+    "action_type": "FINAL_ANSWER",
+    "elapsed_ms": 0.048,
+    "thought": "Tổng hợp thông tin có sẵn để trả lời.",
+    "output": "Không tìm thấy dữ liệu sinh viên có mã 'SV9999999'",
+    "latency_ms": 0.008
   }
 ]

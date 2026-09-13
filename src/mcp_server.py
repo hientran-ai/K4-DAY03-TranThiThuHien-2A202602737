@@ -16,7 +16,7 @@ if sys.stdout.encoding != 'utf-8':
 
 class MCPAcademicServer:
     """
-    Giả lập MCP Server tuân thủ chuẩn giao thức Model Context Protocol
+    Server mô phỏng cho bài lab; không triển khai MCP transport/handshake production.
     """
     def __init__(self, server_name: str = "vinuni-academic-mcp-server"):
         self.server_name = server_name
@@ -32,14 +32,17 @@ class MCPAcademicServer:
         Thực thi request gọi Tool theo chuẩn MCP JSON-RPC
         """
         # --------------------------------------------------------------------------
-        # TODO 2.1: HỌC VIÊN HOÀN THIỆN HÀM GỌI TOOL CHUẨN MCP JSON-RPC
+        # TASK 2.1 hoàn thiện: gọi router và đóng gói envelope mô phỏng.
         # 🎯 YÊU CẦU THỰC THI THUẬT TOÁN:
         # 1. Gọi hàm dispatch_tool_call(tool_name, arguments) để lấy chuỗi JSON kết quả từ Tool Router.
         # 2. Chuyển đổi chuỗi JSON kết quả thành Python Dictionary (dùng json.loads).
         # 3. Đóng gói phản hồi và trả về Dict theo đúng chuẩn giao thức MCP JSON-RPC 2.0:
         #    - Các trường bắt buộc: "jsonrpc": "2.0", "server": self.server_name, "tool": tool_name, "result": content
         # --------------------------------------------------------------------------
-        return {}
+        content = json.loads(dispatch_tool_call(tool_name, arguments))
+        # Envelope của bài lab: mô phỏng trong cùng process, không phải transport MCP production.
+        return {"jsonrpc": "2.0", "id": 1, "server": self.server_name,
+                "tool": tool_name, "result": content}
 
 
 if __name__ == "__main__":

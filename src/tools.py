@@ -4,6 +4,8 @@ Mã nguồn chứa danh sách Tool Schemas (JSON Schema) và Execution Layer ph�
 """
 
 import json
+from datetime import datetime
+from hashlib import sha256
 from typing import Dict, Any
 
 # ==============================================================================
@@ -28,7 +30,7 @@ TOOLS_SCHEMA = [
     },
     
     # --------------------------------------------------------------------------
-    # TODO 1.2: HỌC VIÊN HOÀN THIỆN TOOL SCHEMA CHO 'schedule_appointment'
+    # TASK 1.2 hoàn thiện: schema của schedule_appointment.
     # 🎯 YÊU CẦU THIẾT KẾ SCHEMA (JSON SCHEMA STANDARD):
     # 1. Tool dùng để đặt lịch hẹn tư vấn học vụ với Cố vấn học tập VinUni.
     # 2. Thiết kế các tham số (properties) để LLM trích xuất:
@@ -43,9 +45,12 @@ TOOLS_SCHEMA = [
         "parameters": {
             "type": "object",
             "properties": {
-                # TODO 1.2: Khai báo các thuộc tính tham số cho Tool tại đây...
+                "student_id": {"type": "string", "description": "Mã sinh viên, ví dụ SV2026001"},
+                "datetime_str": {"type": "string", "description": "Thời gian theo HH:MM DD/MM/YYYY, ví dụ 14:00 15/09/2026"},
+                "advisor_name": {"type": "string", "description": "Tên cố vấn do người dùng cung cấp hoặc đã tra cứu bằng academic_query. Không tự đoán."}
             },
-            "required": [] # TODO 1.2: Khai báo danh sách các trường bắt buộc tại đây...
+            "required": ["student_id", "datetime_str", "advisor_name"],
+            "additionalProperties": False
         }
     }
 ]
@@ -92,13 +97,26 @@ def execute_academic_query(student_id: str) -> str:
 
 def execute_schedule_appointment(student_id: str, datetime_str: str, advisor_name: str = "PGS.TS Nguyễn Văn A") -> str:
     """Thực thi đặt lịch hẹn tư vấn học vụ"""
+    student_id = student_id.strip().upper()
+    if student_id not in MOCK_DATABASE:
+        return execute_academic_query(student_id)
+    try:
+        parsed = datetime.strptime(datetime_str, "%H:%M %d/%m/%Y")
+    except ValueError:
+        return json.dumps({"status": "INVALID_ARGUMENTS", "message": "Thời gian phải hợp lệ và theo HH:MM DD/MM/YYYY."}, ensure_ascii=False)
+    if advisor_name.strip().casefold() != MOCK_DATABASE[student_id]["advisor"].casefold():
+        return json.dumps({"status": "INVALID_ARGUMENTS", "message": "Cố vấn không khớp hồ sơ sinh viên. Hãy tra cứu lại."}, ensure_ascii=False)
+    datetime_str = parsed.strftime("%H:%M %d/%m/%Y")
+    # Mã xác định theo nội dung: gọi lại cùng yêu cầu không tạo mã mới.
+    booking_id = "BK-" + sha256(f"{student_id}|{datetime_str}|{advisor_name.strip().casefold()}".encode()).hexdigest()[:10].upper()
     return json.dumps({
         "status": "SUCCESS",
-        "booking_id": f"BK-{student_id}-99",
+        "booking_id": booking_id,
+        "simulated": True,
         "student_id": student_id,
         "datetime": datetime_str,
         "advisor": advisor_name,
-        "message": f"Đặt lịch thành công cho sinh viên {student_id} với {advisor_name} vào lúc {datetime_str}."
+        "message": f"Đã tạo lịch hẹn mô phỏng {booking_id} cho {student_id} với {advisor_name} vào {datetime_str}. Chưa gửi đến nhà trường."
     }, ensure_ascii=False)
 
 
@@ -110,6 +128,14 @@ TOOL_ROUTER = {
 
 def dispatch_tool_call(tool_name: str, arguments: Dict[str, Any]) -> str:
     """Hàm trung chuyển thực thi tool"""
+    schema = next((s for s in TOOLS_SCHEMA if s["name"] == tool_name), None)
+    if schema:
+        props = schema["parameters"]["properties"]
+        if not isinstance(arguments, dict) or any(k not in props for k in arguments):
+            return json.dumps({"status": "INVALID_ARGUMENTS", "message": "Tham số phải là object và chỉ chứa các trường trong schema."}, ensure_ascii=False)
+        required = schema["parameters"]["required"]
+        if any(k not in arguments for k in required) or any(not isinstance(v, str) or not v.strip() for v in arguments.values()):
+            return json.dumps({"status": "INVALID_ARGUMENTS", "message": "Thiếu tham số bắt buộc hoặc tham số không phải chuỗi có nội dung."}, ensure_ascii=False)
     if tool_name in TOOL_ROUTER:
         try:
             return TOOL_ROUTER[tool_name](**arguments)
